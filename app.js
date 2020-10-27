@@ -6,6 +6,12 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+//mongoose
+const mongoose = require('mongoose');
+
+//conexion a la base de datos
+mongoose.connect("mongodb+srv://DevYou:devyou123@cluster0.j7fv1.mongodb.net/Cremeria-Liz", { useNewUrlParser: true, useUnifiedTopology: true });
+
 var app = express();
 
 app.use(logger('dev'));
