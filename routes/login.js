@@ -39,7 +39,7 @@ router.post('/', [
 
     //token
     const jwtoken = usuario.generadorJWT();
-    const envio = jwtoken + "," + usuario.nombre + "," + usuario.tipo;
+    const envio = jwtoken + "," + usuario.nombre + "," + usuario.tipo + "," + usuario.correo;
     res.status(201).send({ envio });
 });
 

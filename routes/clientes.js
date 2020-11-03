@@ -21,6 +21,16 @@ router.get('/', async(req, res) => {
     })
 });
 
+//consulta especifica
+router.get('/buscar-cli-correo', async(req, res) => {
+    const cliente = await Cliente.findOne({ correo: req.body.correo });
+    const correo = req.body.correo;
+    if (!cliente)
+        return res.status(404).send("aui " + correo);
+
+    res.status(200).send(cliente);
+});
+
 //Insertar
 router.post('/', async(req, res) => {
 
