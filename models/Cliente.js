@@ -9,20 +9,11 @@ const ClienteSchema = new mongoose.Schema({
         required: true
     },
 
-    apellidoP: {
-        type: String
-    },
-
-    apellidoM: {
+    apellidos: {
         type: String
     },
 
     telefono: {
-        type: String,
-        required: true
-    },
-
-    estatus: {
         type: String,
         required: true
     },
@@ -35,11 +26,6 @@ const ClienteSchema = new mongoose.Schema({
 
     contrasenia: {
         type: String,
-        required: true
-    },
-
-    fechaNac: {
-        type: Date,
         required: true
     },
 

@@ -10,11 +10,7 @@ const EmpleadoSchema = new mongoose.Schema({
         required: true
     },
 
-    apellidoP: {
-        type: String
-    },
-
-    apellidoM: {
+    apellidos: {
         type: String
     },
 
@@ -25,11 +21,6 @@ const EmpleadoSchema = new mongoose.Schema({
 
     sueldo: {
         type: Number,
-        required: true
-    },
-
-    estatus: {
-        type: String,
         required: true
     },
 

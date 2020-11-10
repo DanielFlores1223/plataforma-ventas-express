@@ -40,13 +40,10 @@ router.post('/', async(req, res) => {
 
     let cliente = new Cliente({
         nombre: req.body.nombre,
-        apellidoP: req.body.apellidoP,
-        apellidoM: req.body.apellidoM,
+        apellidos: req.body.apellidos,
         telefono: req.body.telefono,
-        estatus: req.body.estatus,
         correo: req.body.correo,
         contrasenia: passCifrado,
-        fechaNac: req.body.fechaNac,
         tipo: req.body.tipo
     });
 

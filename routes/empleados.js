@@ -26,7 +26,7 @@ router.post('/buscar-emp-correo', async(req, res) => {
     const empleado = await Empleado.findOne({ correo: req.body.correo });
     const correo = req.body.correo;
     if (!empleado)
-        return res.status(404).send("aui " + correo);
+        return res.status(404).send(false);
 
     res.status(200).send(empleado);
 });
@@ -40,6 +40,31 @@ router.get('/:correo', async(req, res) => {
     res.status(200).send(empleado);
 });
 */
+
+//insertar
+router.post('/', async(req, res) => {
+
+    //encriptacion de la contraseña del empleado
+    const salt = await bcyrpt.genSalt(10);
+    const passCifrado = await bcyrpt.hash(req.body.contrasenia, salt);
+
+    let empleado = new Empleado({
+        nombre: req.body.nombre,
+        apellidos: req.body.apellidos,
+        telefono: req.body.telefono,
+        sueldo: req.body.sueldo,
+        correo: req.body.correo,
+        contrasenia: passCifrado,
+        fechaNac: req.body.fechaNac,
+        tipo: req.body.tipo
+    });
+
+    await empleado.save();
+    res.status(200).send(empleado);
+
+});
+
+//modificar perfil
 
 
 module.exports = router;
