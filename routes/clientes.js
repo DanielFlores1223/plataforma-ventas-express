@@ -22,7 +22,7 @@ router.get('/', async(req, res) => {
 });
 
 //consulta especifica
-router.get('/buscar-cli-correo', async(req, res) => {
+router.post('/buscar-cli-correo', async(req, res) => {
     const cliente = await Cliente.findOne({ correo: req.body.correo });
     const correo = req.body.correo;
     if (!cliente)
@@ -42,7 +42,18 @@ router.post('/buscar-like', async(req, res) => {
 })
 
 //Insertar
-router.post('/', async(req, res) => {
+router.post('/', [
+    //validaciones
+    check('nombre').isLength({ min: 1 }),
+    check('apellidos').isLength({ min: 1 }),
+    check('telefono').isLength({ min: 1 }),
+    check('correo').isLength({ min: 1 }),
+    check('correo').isEmail(),
+], async(req, res) => {
+    const errores = validationResult(req);
+
+    if (!errores.isEmpty())
+        return res.status(422).json({ errors: errores.array() });
 
     //encriptacion de la contraseña del cliente
     const salt = await bcyrpt.genSalt(10);
@@ -65,7 +76,19 @@ router.post('/', async(req, res) => {
 //modificar perfil
 
 //modificar cliente
-router.put('/', async(req, res) => {
+router.put('/', [
+    //validaciones
+    check('nombre').isLength({ min: 1 }),
+    check('apellidos').isLength({ min: 1 }),
+    check('telefono').isLength({ min: 1 }),
+    check('correo').isLength({ min: 1 }),
+    check('correo').isEmail(),
+], async(req, res) => {
+    const errores = validationResult(req);
+
+    if (!errores.isEmpty())
+        return res.status(422).json({ errors: errores.array() });
+
     const cliente = await Cliente.findOne({ correo: req.body.correo });
 
     if (!cliente)

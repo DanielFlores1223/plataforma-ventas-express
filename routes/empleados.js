@@ -24,7 +24,15 @@ router.get('/', async(req, res) => {
 //consulta especifica
 router.post('/buscar-emp-correo', async(req, res) => {
     const empleado = await Empleado.findOne({ correo: req.body.correo });
-    const correo = req.body.correo;
+    if (!empleado)
+        return res.status(404).send(false);
+
+    res.status(200).send(empleado);
+});
+
+//consulta especifica id
+router.post('/buscar-emp-id', async(req, res) => {
+    const empleado = await Empleado.findOne({ _id: req.body._id });
     if (!empleado)
         return res.status(404).send(false);
 
@@ -79,10 +87,53 @@ router.post('/', [
 });
 
 //modificar perfil
+router.put('/modificar-perfil', [
+    //validaciones
+    check('nombre').isLength({ min: 1 }),
+    check('apellidos').isLength({ min: 1 }),
+    check('telefono').isLength({ min: 1 }),
+    check('correo').isLength({ min: 1 }),
+    check('correo').isEmail(),
+], async(req, res) => {
+    const errores = validationResult(req);
 
+    if (!errores.isEmpty())
+        return res.status(422).json({ errors: errores.array() });
+
+    const empleado = await Empleado.findOne({ _id: req.body._id });
+
+    if (!empleado)
+        return res.status(400).send(false);
+
+    empleadoMod = await Empleado.findOneAndUpdate({ _id: req.body._id }, {
+        //campos a modificar
+        nombre: req.body.nombre,
+        apellidos: req.body.apellidos,
+        telefono: req.body.telefono,
+        correo: req.body.correo,
+        fechaNac: req.body.fechaNac,
+    }, {
+        new: true
+    });
+
+    res.send(empleadoMod);
+})
 
 //modificar empleado (sin contraseña)
-router.put('/', async(req, res) => {
+router.put('/', [
+    //validaciones
+    check('nombre').isLength({ min: 1 }),
+    check('apellidos').isLength({ min: 1 }),
+    check('telefono').isLength({ min: 1 }),
+    check('sueldo').isLength({ min: 1 }),
+    check('correo').isLength({ min: 1 }),
+    check('correo').isEmail(),
+], async(req, res) => {
+    const errores = validationResult(req);
+
+    if (!errores.isEmpty())
+        return res.status(422).json({ errors: errores.array() });
+
     const empleado = await Empleado.findOne({ correo: req.body.correo });
 
     if (!empleado)
@@ -105,7 +156,14 @@ router.put('/', async(req, res) => {
     res.send(empleadoMod);
 });
 
-router.put('/modificar-contrasenia', async(req, res) => {
+router.put('/modificar-contrasenia', [
+    //validaciones
+    check('contrasenia').isLength({ min: 1 }),
+], async(req, res) => {
+    const errores = validationResult(req);
+    if (!errores.isEmpty())
+        return res.status(422).json({ errors: errores.array() });
+
     const empleado = await Empleado.findOne({ correo: req.body.correo });
 
     if (!empleado)
