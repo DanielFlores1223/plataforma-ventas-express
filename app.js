@@ -13,6 +13,7 @@ mongoose.connect("mongodb+srv://DevYou:devyou123@cluster0.j7fv1.mongodb.net/Crem
 //Schemas 
 require('./models/Empleado');
 require('./models/Cliente');
+require('./models/Proveedor');
 
 //Referencia al archivo fisico a las rutas
 var indexRouter = require('./routes/index');
@@ -20,6 +21,7 @@ var usersRouter = require('./routes/users');
 var empleadoRouter = require('./routes/empleados');
 var loginRouter = require('./routes/login');
 var clienteRouter = require('./routes/clientes');
+var proveedorRouter = require('./routes/proveedores');
 
 var app = express();
 
@@ -47,6 +49,7 @@ app.use('/users', usersRouter);
 app.use('/empleados', empleadoRouter)
 app.use('/login', loginRouter);
 app.use('/clientes', clienteRouter)
+app.use('/proveedores', proveedorRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
