@@ -24,7 +24,7 @@ router.get('/', async(req, res) => {
 //consulta especifica
 router.post('/buscar-cli-correo', async(req, res) => {
     const cliente = await Cliente.findOne({ correo: req.body.correo });
-    const correo = req.body.correo;
+
     if (!cliente)
         return res.status(404).send(false);
 

@@ -38,6 +38,16 @@ router.post('/buscar-like-categoria', async(req, res) => {
     res.status(200).send(productos);
 });
 
+//buscarTodo sin categoria
+router.post('/buscar-todo', async(req, res) => {
+    const productos = await Producto.find({ '$or': [{ nombreProd: { '$regex': req.body.nombre, '$options': 'i' } }, { marca: { '$regex': req.body.nombre, '$options': 'i' } }] });
+
+    if (!productos)
+        return res.status(404).send(false);
+
+    res.status(200).send(productos);
+});
+
 //buscar like con categoria y subcategoria
 router.post('/buscar-like-categoria-sub', async(req, res) => {
     const productos = await Producto.find({ '$and': [{ '$or': [{ nombreProd: { '$regex': req.body.nombre, '$options': 'i' } }, { marca: { '$regex': req.body.nombre, '$options': 'i' } }] }, { categoria: req.body.categoria }, { subCategoria: req.body.subCategoria }] });
