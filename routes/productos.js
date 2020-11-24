@@ -67,6 +67,15 @@ router.post('/buscar-prod-codigo', async(req, res) => {
     res.status(200).send(producto);
 });
 
+//consulta especifica codigo para el carrito
+router.post('/buscar-prod-codigoProd', async(req, res) => {
+    const producto = await Producto.findOne({ codigo: req.body.codigoProd });
+    if (!producto)
+        return res.status(404).send(false);
+
+    res.status(200).send(producto);
+});
+
 //insertar
 router.post('/', [
     //validaciones
