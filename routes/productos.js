@@ -18,6 +18,16 @@ router.get('/', async(req, res) => {
     })
 });
 
+//buscar todo punto venta
+router.post('/productos-venta', async(req, res) => {
+    const productos = await Producto.find();
+
+    if (!productos)
+        return res.status(404).send(false);
+
+    res.status(200).send(productos);
+})
+
 //buscar like
 router.post('/buscar-like', async(req, res) => {
     const productos = await Producto.find({ '$or': [{ nombreProd: { '$regex': req.body.nombre, '$options': 'i' } }, { marca: { '$regex': req.body.nombre, '$options': 'i' } }] });

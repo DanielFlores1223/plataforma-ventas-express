@@ -16,6 +16,7 @@ require('./models/Cliente');
 require('./models/Proveedor');
 require('./models/Producto');
 require('./models/Pedido');
+require('./models/Venta');
 
 //Referencia al archivo fisico a las rutas
 var indexRouter = require('./routes/index');
@@ -26,6 +27,7 @@ var clienteRouter = require('./routes/clientes');
 var proveedorRouter = require('./routes/proveedores');
 var productoRouter = require('./routes/productos');
 var pedidoRouter = require('./routes/pedidos');
+var ventaRouter = require('./routes/ventas');
 
 var app = express();
 
@@ -56,6 +58,7 @@ app.use('/clientes', clienteRouter)
 app.use('/proveedores', proveedorRouter);
 app.use('/productos', productoRouter);
 app.use('/pedidos', pedidoRouter);
+app.use('/ventas', ventaRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
