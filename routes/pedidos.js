@@ -116,6 +116,26 @@ router.put('/modificar-prod', async(req, res) => {
     res.send(productoMod);
 })
 
+//modificar pedido
+router.put('/modificar-pedido-carrito', async(req, res) => {
+    const pedido = await Pedido.findOne({ '$and': [{ 'cliente.correo': req.body.correoCli }, { estatus: 'en carrito' }] });
+
+    if (!pedido)
+        return res.status(404).send(false);
+
+    const pedido_actualizado = await Pedido.findOneAndUpdate({ '$and': [{ 'cliente.correo': req.body.correoCli }, { estatus: 'en carrito' }] }, {
+        total: req.body.total,
+        metodoPago: req.body.metodoPago,
+        direccionEnvio: req.body.direccionEnvio,
+        fechaEntrega: req.body.fechaEntrega,
+        estatus: req.body.estatus
+    }, {
+        new: true
+    })
+
+    res.send(pedido_actualizado);
+})
+
 //eliminar un producto del objeto tiene
 router.post('/eliminar-producto', async(req, res) => {
     let pedido = await Pedido.findOne({ _id: req.body.id });
