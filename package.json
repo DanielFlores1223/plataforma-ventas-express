@@ -15,6 +15,8 @@
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.11",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "node-gyp": "^7.1.2",
+    "serialport": "^9.0.2"
   }
 }
