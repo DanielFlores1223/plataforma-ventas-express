@@ -18,6 +18,26 @@ router.get('/', async(req, res) => {
     })
 });
 
+//consultar pedido por id
+router.post('/consultar-pedido-id', async(req, res) => {
+    const pedido = await Pedido.findOne({ _id: req.body.id });
+
+    if (!pedido)
+        return res.status(404).send(false);
+
+    res.status(200).send(pedido);
+})
+
+//consultar por estatus
+router.post('/buscar-pedidos-estatus-cliente', async(req, res) => {
+    const pedido = await Pedido.find({ '$and': [{ estatus: req.body.estatus }, { 'cliente.correo': req.body.correoCli }] });
+
+    if (!pedido)
+        return res.status(404).send(false);
+
+    res.status(200).send(pedido);
+});
+
 //consultar si hay un pedido en carrito
 router.post('/buscar-pedido-carrito', async(req, res) => {
     const pedido = await Pedido.findOne({ '$and': [{ 'cliente.correo': req.body.correoCli }, { estatus: 'en carrito' }] });
@@ -36,6 +56,15 @@ router.post('/buscar-producto-carrito', async(req, res) => {
         return res.status(404).send(false);
 
     res.status(200).send(pedido.tiene);
+});
+
+router.post('/buscar-pedidos-diferente-carrito', async(req, res) => {
+    const pedido = await Pedido.find({ '$and': [{ estatus: { '$ne': 'en carrito' } }, { 'cliente.correo': req.body.correoCli }] });
+
+    if (!pedido)
+        return res.status(404).send(false);
+
+    res.status(200).send(pedido);
 });
 
 
@@ -135,6 +164,23 @@ router.put('/modificar-pedido-carrito', async(req, res) => {
 
     res.send(pedido_actualizado);
 })
+
+//modificar pedido
+router.put('/modificar-pedido-estatus', async(req, res) => {
+    const pedido = await Pedido.findOne({ _id: req.body.id });
+
+    if (!pedido)
+        return res.status(404).send(false);
+
+    const pedido_actualizado = await Pedido.findOneAndUpdate({ _id: req.body.id }, {
+        estatus: req.body.estatus
+    }, {
+        new: true
+    })
+
+    res.send(pedido_actualizado);
+})
+
 
 //eliminar un producto del objeto tiene
 router.post('/eliminar-producto', async(req, res) => {
