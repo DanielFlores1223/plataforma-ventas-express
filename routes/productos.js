@@ -169,6 +169,18 @@ router.put('/', [
     res.send(productoMod);
 });
 
+//modificar producto solo la existencia
+router.put('/modificar-existencia', async(req, res) => {
+
+    productoMod = await Producto.findOneAndUpdate({ codigo: req.body.codigo }, {
+        existencia: req.body.existencia
+    }, {
+        new: true
+    });
+
+    res.send(productoMod);
+});
+
 //eliminar producto completo
 router.post('/eliminar', async(req, res) => {
     const producto = await Producto.findOne({ codigo: req.body.codigo });

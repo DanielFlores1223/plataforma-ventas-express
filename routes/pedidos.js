@@ -8,15 +8,6 @@ const { check, validationResult, Result } = require('express-validator');
 const mongoose = require('mongoose');
 const Pedido = mongoose.model('Pedido');
 
-/* GET users listing. */
-router.get('/', async(req, res) => {
-    await Pedido.find((err, pedido) => {
-        if (err)
-            return res.send(err);
-
-        res.send(pedido);
-    })
-});
 
 //consultar pedido por id
 router.post('/consultar-pedido-id', async(req, res) => {
@@ -27,6 +18,14 @@ router.post('/consultar-pedido-id', async(req, res) => {
 
     res.status(200).send(pedido);
 })
+
+//buscar todos los pedidos diferente de carrito
+router.get('/', async(req, res) => {
+    pedidos = await Pedido.find({ estatus: { '$ne': 'en carrito' } });
+
+    res.status(200).send(pedidos);
+})
+
 
 //consultar por estatus
 router.post('/buscar-pedidos-estatus-cliente', async(req, res) => {
@@ -67,6 +66,25 @@ router.post('/buscar-pedidos-diferente-carrito', async(req, res) => {
     res.status(200).send(pedido);
 });
 
+//buscar like con nombre cliente y _id pedido con filtro de estatus
+router.post('/buscar-like-cliente-codigo-estatus', async(req, res) => {
+    const pedidos = await Pedido.find({ '$and': [{ '$or': [{ 'cliente.nombre': { '$regex': req.body.nombre, '$options': 'i' } }, { 'cliente.apellidos': { '$regex': req.body.nombre } }, { 'cliente.correo': { '$regex': req.body.nombre } }] }, { estatus: req.body.estatus }] });
+
+    if (!pedidos)
+        return res.status(404).send(false);
+
+    res.status(200).send(pedidos);
+});
+
+//buscar like con nombre cliente y _id pedido 
+router.post('/buscar-like-cliente-codigo', async(req, res) => {
+    const pedidos = await Pedido.find({ '$or': [{ 'cliente.nombre': { '$regex': req.body.nombre, '$options': 'i' } }, { 'cliente.apellidos': { '$regex': req.body.nombre } }, { 'cliente.correo': { '$regex': req.body.nombre } }] });
+
+    if (!pedidos)
+        return res.status(404).send(false);
+
+    res.status(200).send(pedidos);
+});
 
 //insertar
 router.post('/', async(req, res) => {
