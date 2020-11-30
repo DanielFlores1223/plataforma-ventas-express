@@ -191,7 +191,13 @@ router.put('/modificar-pedido-estatus', async(req, res) => {
         return res.status(404).send(false);
 
     const pedido_actualizado = await Pedido.findOneAndUpdate({ _id: req.body.id }, {
-        estatus: req.body.estatus
+        estatus: req.body.estatus,
+        empleado: {
+            correo: req.body.correoEmp,
+            nombre: req.body.nombreEmp,
+            apellidos: req.body.apellidosEmp,
+            telefono: req.body.telefonoEmp
+        }
     }, {
         new: true
     })
