@@ -19,6 +19,7 @@ require('./models/Pedido');
 require('./models/Venta');
 require('./models/Servicio');
 require('./models/SolicitudesServicio');
+require('./models/Arduino');
 
 //Referencia al archivo fisico a las rutas
 var indexRouter = require('./routes/index');
@@ -32,7 +33,7 @@ var pedidoRouter = require('./routes/pedidos');
 var ventaRouter = require('./routes/ventas');
 var servicioRouter = require('./routes/servicios');
 var solicitudServRouter = require('./routes/solicitudesServicios');
-
+var arduinosRouter = require('./routes/arduinos');
 var app = express();
 
 //conexion Angular y Express
@@ -65,6 +66,7 @@ app.use('/pedidos', pedidoRouter);
 app.use('/ventas', ventaRouter);
 app.use('/servicios', servicioRouter);
 app.use('/solicitudServicio', solicitudServRouter);
+app.use('/arduinos', arduinosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
