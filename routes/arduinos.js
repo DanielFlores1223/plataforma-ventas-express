@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const { parsers } = require('serialport');
 const Arduino = mongoose.model('Arduino');
 
-var arduinoCOMPort = 'COM4';
+var arduinoCOMPort = 'COM6';
 const ReadLine = Serialport.parsers.Readline;
 
 var arduinoSerialPort = new Serialport(arduinoCOMPort,{
@@ -37,7 +37,6 @@ router.post('/', async(req,res)=>{
     var arduinotemp = new Arduino({
         estado:numero,
         temperatura:req.body.valor,
-        fecha_reg:req.body.fecha
     })
     await arduinotemp.save();
     res.status(201).send(arduinotemp)
