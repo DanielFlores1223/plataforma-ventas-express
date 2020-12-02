@@ -1,15 +1,12 @@
 const mongoose = require('mongoose')
-mongoose.set('useCreateIndex',true)
+mongoose.set('useCreateIndex', true)
 
 const Arduino = new mongoose.Schema({
-    estado:{
-        type:Number
+    temperatura: {
+        type: String
     },
-    temperatura:{
-        type:String
-    },
-    fecha_reg:{
-        type:Date,
+    fecha_reg: {
+        type: Date,
         default: Date.now
     }
 
